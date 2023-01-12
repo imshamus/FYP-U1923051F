@@ -1,5 +1,4 @@
 import sys
-import cmath
 import re
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.uic import loadUi
@@ -34,13 +33,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def calculate(self):
         # Calculate
-        # input_1 = 0
-        # input_2 = 0
-        # input_3 = 0
-        # input_4 = 0
-        # input_5 = 0
-        # input_6 = 0
-
         try:
             input_1 = float(self.input_1.text())
             input_2 = float(self.input_2.text())
@@ -66,15 +58,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.output_1.setText('')
             print('Conversion error')
             return
-
-        # print(f'{input_1 = }')
-        # print(f'{input_2 = }')
-        # print(f'{input_3 = }')
-        # print(f'{input_4 = }')
-        # print(f'{input_5 = }')
-        # print(f'{input_6 = }')
-        # print(f'{self.total = }')
-
         ####
 
     def go_calculate_page(self):
@@ -85,6 +68,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # if widget.count() < 2:
         #     widget.addWidget(Calculations(total_failures=self.total, fail_dist=self.fail_dist))     # can comma
         go_next()
+        calculations.update_total_failures()
 
 
 class Calculations(QtWidgets.QMainWindow):
@@ -127,6 +111,8 @@ class Calculations(QtWidgets.QMainWindow):
         self.button_calculate.clicked.connect(self.calculate)
         self.previous_button.clicked.connect(go_previous)
 
+        self.update_total_failures()
+
         self.show()
 
     def calculate(self):
@@ -146,13 +132,6 @@ class Calculations(QtWidgets.QMainWindow):
 
         except ValueError:
             print('Conversion error')
-
-        # print(f'{input_1 = }')
-        # print(f'{input_2 = }')
-        # print(f'{input_3 = }')
-        # print(f'{input_4 = }')
-        # print(f'{input_5 = }')
-        # print(f'{total = }')
 
         output_3 = input_2 * input_3 * input_4
         output_2 = (10 ** (-1 * input_1)) / (output_3 * input_5)
@@ -231,6 +210,10 @@ class Calculations(QtWidgets.QMainWindow):
         self.output_9.setText(shorten(str(output_9)))
         return output_9
 
+    def update_total_failures(self):
+        self.output_1.setText(str(self.total_failures))
+        self.lineedit_1.setText(str(self.total_failures))
+
 
 # Static functions
 def go_next():
@@ -240,8 +223,8 @@ def go_next():
 def go_previous():
     widget.setCurrentIndex(widget.currentIndex() - 1)
 
-# REFRESH CALCULATE PAGE
 
+# REFRESH CALCULATE PAGE
 def shorten(num_str):
     print(f'{num_str = }')
     result = re.search(r'\.', num_str)
